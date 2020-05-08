@@ -135,17 +135,10 @@ class FacebookLogin extends React.Component {
     })(document, 'script', 'facebook-jssdk');
   }
 
-  responseApi = (authResponse) => {
-    window.FB.api('/me', { locale: this.props.language, fields: this.props.fields }, (me) => {
-      Object.assign(me, authResponse);
-      this.props.callback(me);
-    });
-  };
-
   checkLoginState = (response) => {
     this.setStateIfMounted({ isProcessing: false });
     if (response.authResponse) {
-      this.responseApi(response.authResponse);
+      this.props.callback(response.authResponse);
     } else {
       if (this.props.onFailure) {
         this.props.onFailure({ status: response.status });
